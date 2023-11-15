@@ -5,7 +5,10 @@ import (
 	"net/http"
 )
 
-func pathHandler(w http.ResponseWriter, r *http.Request) {
+type Router struct {
+}
+
+func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusNotFound)
 
@@ -13,9 +16,9 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", pathHandler)
 	fmt.Print("Starting server on :3000 ...")
-	err := http.ListenAndServe(":3000", nil)
+	var router Router
+	err := http.ListenAndServe(":3000", router)
 	if err != nil {
 		panic(err)
 	}
