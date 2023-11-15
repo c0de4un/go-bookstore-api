@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
-type Router struct {
-}
-
-func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func handleNotFound(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusNotFound)
 
@@ -16,8 +15,10 @@ func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	router := chi.NewRouter()
+	router.NotFound(handleNotFound)
+
 	fmt.Print("Starting server on :3000 ...")
-	var router Router
 	err := http.ListenAndServe(":3000", router)
 	if err != nil {
 		panic(err)
