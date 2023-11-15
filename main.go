@@ -5,12 +5,18 @@ import (
 	"net/http"
 )
 
-func handleFunc(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "<h1>Hello World !</h1>")
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusNotFound)
+
+	fmt.Fprint(w, "{}")
 }
 
 func main() {
-	http.HandleFunc("/", handleFunc)
+	http.HandleFunc("/", pathHandler)
 	fmt.Print("Starting server on :3000 ...")
-	http.ListenAndServe(":3000", nil)
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		panic(err)
+	}
 }
