@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  db:
+    build: ./db
+    environment:
+      POSTGRES_USER: baloo
+      POSTGRES_PASSWORD: junglebook
+      POSTGRES_DB: bookstore
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    environment:
+      - ADMINER_DESIGN=dracula
+    ports:
+      - 3333:8080
